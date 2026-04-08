@@ -1,0 +1,215 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+}
+
+/* BODY */
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    min-height: 100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
+        url("../../assets/images/bg-stars.jpg") no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background: rgba(18, 10, 36, 0.92);
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+.logo {
+    font-size: 26px;
+    color: orange;
+    font-weight: bold;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    margin-left: 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: orange;
+}
+
+/* MAIN DETAIL WRAPPER */
+.detail {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 110px 20px 40px; /* chừa chỗ cho navbar fixed */
+    position: relative;
+    z-index: 1;
+}
+
+/* CARD */
+.detail-card {
+    width: min(100%, 980px);
+    background: rgba(10, 8, 20, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+}
+
+.title {
+    text-align: center;
+    font-size: 32px;
+    color: orange;
+    text-shadow: 0 0 10px rgba(255, 165, 0, 0.35);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+}
+
+/* CONTENT LAYOUT */
+.detail-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 28px;
+    align-items: center;
+}
+
+/* IMAGE */
+.detail-img {
+    display: flex;
+    justify-content: center;
+}
+
+.detail-img img {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 22px rgba(238, 130, 238, 0.35);
+    transition: transform 0.35s ease;
+}
+
+.detail-img img:hover {
+    transform: scale(1.03);
+}
+
+/* TEXT */
+.detail-text {
+    text-align: left;
+}
+
+.detail-text h2 {
+    font-size: 24px;
+    color: violet;
+    margin-bottom: 12px;
+}
+
+.detail-text p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #f4f4f4;
+    margin-bottom: 24px;
+}
+
+/* BUTTONS */
+.actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s ease;
+    background: linear-gradient(45deg, orange, purple);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: linear-gradient(45deg, darkorange, darkmagenta);
+}
+
+.btn.back {
+    background: linear-gradient(45deg, #4b2a7a, #2a1b4a);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 14px 20px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .detail {
+        padding-top: 95px;
+    }
+
+    .detail-card {
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .detail-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .detail-text {
+        text-align: center;
+    }
+
+    .detail-text h2 {
+        font-size: 21px;
+    }
+
+    .detail-text p {
+        font-size: 15px;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    .detail-img img {
+        max-width: 240px;
+    }
+}

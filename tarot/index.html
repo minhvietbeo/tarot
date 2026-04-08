@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+    <div class="logo">🔮 Bói Tarot</div>
+
+    <nav>
+        <a href="#">Bói tương lai</a>
+        <a href="#">Hôm nay</a>
+        <a href="#">Tự hỏi</a>
+        <a href="#">Reader</a>
+    </nav>
+
+    <!-- LOGIN / USER -->
+    <div class="nav-login" id="navUser"></div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    
+    <div class="hero-text">
+        <h1>Bói Bài Tarot Online Chính Xác, Miễn Phí</h1>
+        <p>
+            Trải nghiệm bói bài Tarot trực tuyến chuẩn xác,
+            khám phá tương lai, tình yêu, công việc và cuộc sống.
+        </p>
+
+        <a href="pages/detail/detail.html" class="btn" id="start-btn">
+            BÓI MIỄN PHÍ 3 LƯỢT
+        </a>
+    </div>
+
+    <!-- TAROT -->
+    <div class="hero-img">
+
+        <div class="flip-card card1">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <img src="assets/images/main.jpg" alt="">
+                </div>
+                <div class="flip-back">🔮</div>
+            </div>
+        </div>
+
+        <div class="flip-card card2">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <img src="assets/images/main.jpg" alt="">
+                </div>
+                <div class="flip-back">💜</div>
+            </div>
+        </div>
+
+        <div class="flip-card card3">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <img src="assets/images/main.jpg" alt="">
+                </div>
+                <div class="flip-back">✨</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards">
+    <h2>BÓI BÀI TAROT HÔM NAY</h2>
+
+    <div class="card-list">
+
+        <div class="card-item">
+            <div class="card">HỌC TẬP</div>
+            <img src="assets/images/card.jpg" alt="">
+        </div>
+
+        <div class="card-item">
+            <div class="card">TÌNH YÊU</div>
+            <img src="assets/images/card.jpg" alt="">
+        </div>
+
+        <div class="card-item">
+            <div class="card">CÔNG VIỆC</div>
+            <img src="assets/images/card.jpg" alt="">
+        </div>
+
+        <div class="card-item">
+            <div class="card">TÀI CHÍNH</div>
+            <img src="assets/images/card.jpg" alt="">
+        </div>
+
+        <div class="card-item">
+            <div class="card">SỨC KHỎE</div>
+            <img src="assets/images/card.jpg" alt="">
+        </div>
+
+    </div>
+</section>
+
+<!-- SCRIPT -->
+<script>
+const navUser = document.getElementById("navUser");
+const startBtn = document.getElementById("start-btn");
+
+// Đổi thành hàm async để đợi Python trả lời
+async function renderNavUser() {
+    try {
+        // GỌI API PYTHON để lấy thông tin session
+        const response = await fetch('/api/user');
+        const data = await response.json();
+        const user = data.user;
+
+        if (user) {
+            navUser.innerHTML = `
+                <span class="user-name">👤 ${user}</span>
+                <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+            `;
+        } else {
+            navUser.innerHTML = `
+                <a href="pages/authenticate/login.html" class="login-btn">Đăng nhập</a>
+            `;
+        }
+    } catch (error) {
+        console.error("Lỗi khi kết nối Server:", error);
+    }
+}
+
+async function logout() {
+    // GỌI API PYTHON ĐỂ XÓA SESSION
+    await fetch('/api/logout', { method: 'POST' });
+    renderNavUser(); // Cập nhật lại giao diện
+}
+
+startBtn.addEventListener("click", async function(e) {
+    e.preventDefault(); // Tạm dừng việc chuyển trang ngay lập tức
+    
+    // Hỏi lại Python xem thực sự đã đăng nhập chưa
+    const response = await fetch('/api/user');
+    const data = await response.json();
+
+    if (!data.user) {
+        alert("Bạn cần đăng nhập trước!");
+        window.location.href = "pages/authenticate/login.html";
+    } else {
+        // Nếu Python báo Ok, cho phép chuyển sang trang rút bài
+        window.location.href = "pages/detail/detail.html";
+    }
+});
+
+// Chạy hàm kiểm tra ngay khi mở web
+renderNavUser();
+</script>
+
+</body>
+</html>

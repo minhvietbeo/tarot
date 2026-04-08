@@ -1,0 +1,220 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    color: white;
+
+    /* Overlay tối hơn */
+    background: 
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), /* tăng alpha để tối hơn */
+        url("assets/images/bg-stars.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background: #120a24;
+}
+
+.logo {
+    font-size: 28px;
+    color: orange;
+    font-weight: bold;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+.navbar a:hover {
+    color: orange;
+}
+
+/* ============================= */
+/*             HERO              */
+/* ============================= */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    min-height: 70vh;
+}
+
+.hero-text {
+    width: 50%;
+}
+
+.hero-img {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+    gap: 0;
+    position: relative;
+}
+
+/* ============================= */
+/*           3D TAROT            */
+/* ============================= */
+.tarot-3d {
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.tarot-3d img {
+    width: 220px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 15px;
+    transform: rotateY(-15deg) rotateX(10deg);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 25px violet;
+    transition: 0.4s;
+}
+
+.tarot-3d:hover img {
+    transform: rotateY(0deg) rotateX(0deg) scale(1.1);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.9), 0 0 40px violet;
+}
+
+.tarot-3d::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 320px;
+    border-radius: 15px;
+    background: radial-gradient(circle, rgba(138,43,226,0.4), transparent);
+    filter: blur(25px);
+    z-index: -1;
+}
+
+/* Xếp hình quạt 3 lá */
+.tarot-3d img:nth-child(1) { transform: rotate(-25deg) translateX(-80px); z-index: 1; }
+.tarot-3d img:nth-child(2) { transform: rotate(0deg); z-index: 3; }
+.tarot-3d img:nth-child(3) { transform: rotate(25deg) translateX(80px); z-index: 2; }
+
+/* ============================= */
+/*             BUTTON            */
+/* ============================= */
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    background: orange;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* ============================= */
+/*             CARDS             */
+/* ============================= */
+.cards {
+    text-align: center;
+    padding: 40px;
+}
+
+.card-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-item img {
+    width: 160px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.card-item:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px violet;
+}
+
+.card-item a {
+    text-decoration: none;
+    color: white;
+}
+
+.card {
+    background: #2a1b4a;
+    padding: 18px;
+    border-radius: 15px;
+    width: 160px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background: #3b2a6d;
+    transform: translateY(-5px);
+}
+
+/* ============================= */
+/*           FLIP CARD           */
+/* ============================= */
+.flip-card {
+    width: 180px;
+    height: 260px;
+    perspective: 1000px;
+    position: absolute;
+}
+
+.card1 { transform: rotate(-15deg) translateX(-120px); z-index: 1; }
+.card2 { transform: rotate(0deg); z-index: 2; }
+.card3 { transform: rotate(15deg) translateX(120px); z-index: 1; }
+
+.flip-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.flip-card:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    backface-visibility: hidden;
+}
+
+.flip-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px violet;
+}
+
+.flip-back {
+    background: linear-gradient(135deg, #2a1b4a, #4b2a7a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    transform: rotateY(180deg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px violet;
+}

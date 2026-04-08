@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập / Đăng ký</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="login-page">
+
+    <!-- NÚT TRANG CHỦ -->
+    <a href="../../index.html" class="home-fixed">🏠 Trang chủ</a>
+
+    <div class="auth-box">
+
+        <!-- LOGIN -->
+        <form id="loginForm" class="form active">
+            <h2>🔐 Đăng nhập</h2>
+
+            <input type="text" placeholder="Tên đăng nhập" required>
+            <input type="password" placeholder="Mật khẩu" required>
+
+            <button type="submit">Đăng nhập</button>
+
+            <p>
+                Chưa có tài khoản?
+                <a href="#" id="goRegister">Đăng ký</a>
+            </p>
+        </form>
+
+        <!-- REGISTER -->
+        <form id="registerForm" class="form">
+            <h2>📝 Đăng ký</h2>
+
+            <input type="text" placeholder="Tên đăng nhập" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Mật khẩu" required>
+            <input type="password" placeholder="Nhập lại mật khẩu" required>
+
+            <button type="submit">Đăng ký</button>
+
+            <p>
+                Đã có tài khoản?
+                <a href="#" id="goLogin">Đăng nhập</a>
+            </p>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+// chuyển form
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+
+document.getElementById("goRegister").onclick = function(e){
+    e.preventDefault();
+    loginForm.classList.remove("active");
+    registerForm.classList.add("active");
+};
+
+document.getElementById("goLogin").onclick = function(e){
+    e.preventDefault();
+    registerForm.classList.remove("active");
+    loginForm.classList.add("active");
+};
+
+// demo login
+loginForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    alert("Đăng nhập thành công!");
+    window.location.href = "../../index.html";
+});
+</script>
+
+</body>
+</html>

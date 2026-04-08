@@ -1,0 +1,132 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* PAGE */
+.login-page {
+    position: relative;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: 
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+        url("../../assets/images/bg-stars.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+/* NÚT TRANG CHỦ */
+.home-fixed {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(6px);
+
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.home-fixed:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+/* BOX */
+.auth-box {
+    width: 340px;
+    padding: 30px;
+
+    border-radius: 15px;
+
+    background: rgba(20, 10, 40, 0.75);
+    backdrop-filter: blur(10px);
+
+    text-align: center;
+    color: white;
+
+    box-shadow: 0 0 25px rgba(150, 0, 255, 0.4);
+}
+
+/* FORM */
+.form {
+    display: none;
+}
+
+.form.active {
+    display: block;
+}
+
+/* TITLE */
+.form h2 {
+    margin-bottom: 20px;
+}
+
+/* INPUT */
+.form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* BUTTON */
+.form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, #8e2de2, #c471ed);
+    color: white;
+
+    cursor: pointer;
+}
+
+.form button:hover {
+    opacity: 0.9;
+}
+
+/* TEXT */
+.form p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* LINK */
+.form a {
+    color: #d9c8ff;
+    text-decoration: none;
+}
+
+.form a:hover {
+    text-decoration: underline;
+}
