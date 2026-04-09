@@ -1,29 +1,18 @@
 from flask import Flask, render_template, jsonify, session, request
-import pyodbc # Thư viện SQL Server
+import pyodbc
 
 app = Flask(__name__, template_folder='tarot', static_folder='tarot', static_url_path='')
 app.secret_key = 'mot_chuoi_bi_mat_bat_ky'
 
-# ==========================================
-# CẤU HÌNH KẾT NỐI SQL SERVER
-# ==========================================
 def get_db_connection():
-    """Hàm tạo kết nối tới SQL Server bằng SQL Server Authentication"""
+    """Hàm tạo kết nối tới SQL Server"""
     
     server = 'LAPTOP-BD3BQ9OJ'
     database = 'tarot'
     
-    # THÊM TÀI KHOẢN VÀ MẬT KHẨU SQL SERVER CỦA BẠN VÀO ĐÂY
-    username = 'sa'                  # Thường mặc định là 'sa' (System Administrator)
-    password = '12345678' # Thay bằng mật khẩu SQL Server của bạn
-    
-    # Chuỗi kết nối dùng SQL Server Authentication
-    conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+    conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
     
     return pyodbc.connect(conn_str)
-# ==========================================
-# ROUTE GIAO DIỆN & ĐĂNG NHẬP
-# ==========================================
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -44,8 +33,6 @@ def api_login():
     data = request.json
     username = data.get('username')
     
-    # Tạm thời cứ nhập tên là cho đăng nhập thành công. 
-    # (Sau này bạn có thể kết nối DB để check Mật khẩu ở đây)
     if username:
         session['user'] = username
         return jsonify({"success": True})
@@ -62,33 +49,24 @@ def test_login(username):
     session['user'] = username
     return f"Đã đăng nhập: {username}. Quay lại trang chủ nhé!"
 
-# ==========================================
-# API RÚT BÀI TỪ SQL SERVER
-# ==========================================
+@app.route('/api/draw')
 @app.route('/api/draw')
 def draw_card():
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT TOP 1 name AS category, image_url AS img, description AS message FROM cards ORDER BY NEWID()")
+    row = cursor.fetchone()
+    
+    if row:
+        columns = [column[0] for column in cursor.description]
+        card = dict(zip(columns, row))
         
-        # Lấy NGẪU NHIÊN 1 lá bài (SQL Server dùng NEWID)
-        cursor.execute("SELECT TOP 1 category, img, message FROM cards ORDER BY NEWID()")
-        row = cursor.fetchone()
-        
-        if row:
-            # pyodbc trả về Tuple, ta cần ép về dạng Dictionary (JSON) cho Front-end đọc được
-            columns = [column[0] for column in cursor.description]
-            card = dict(zip(columns, row))
-            
-            cursor.close()
-            conn.close()
-            return jsonify(card)
-        else:
-            return jsonify({"error": "Chưa có bài trong DB"}), 404
-
-    except Exception as err:
-        print(f"LỖI DATABASE: {err}")
-        return jsonify({"error": "Lỗi kết nối vũ trụ (DB)"}), 500
+        cursor.close()
+        conn.close()
+        return jsonify(card)
+    else:
+        return jsonify({"error": "Chưa có bài trong DB"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

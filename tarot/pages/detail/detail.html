@@ -21,7 +21,17 @@
 
         <div class="detail-container">
             <div class="detail-img">
-                <img id="card-img" src="../../assets/images/main.jpg" alt="Tarot">
+                <div class="flip-card">
+                    <div class="flip-card-inner" id="card-inner">
+                        <div class="flip-card-front">
+                            <img src="../../assets/images/card.jpg" alt="Mặt sau lá bài">
+                        </div>
+                        
+                        <div class="flip-card-back">
+                            <img id="card-img" src="../../assets/images/main.jpg" alt="Tarot">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="detail-text">
@@ -36,35 +46,47 @@
         </div>
     </section>
 </main>
+
 <script>
 async function drawCard() {
+    const cardInner = document.getElementById("card-inner");
+
+    // 1. Úp bài xuống ngay khi bấm nút (nếu đang lật)
+    cardInner.classList.remove("flipped");
+
     try {
-        // Hiển thị trạng thái đang chờ
         document.getElementById("title").innerText = "Đang xin thông điệp...";
-        
-        // Gọi API tới Server Python (thêm Date().getTime() để không bị lưu cache)
+        document.getElementById("message").innerText = "Vũ trụ đang xáo bài...";
+
+        // Đợi 0.4s để hiệu ứng úp bài kịp chạy xong
+        await new Promise(resolve => setTimeout(resolve, 400));
+
+        // 2. Gọi API lấy bài mới
         const response = await fetch(`/api/draw?t=${new Date().getTime()}`);
         const card = await response.json();
 
-        // Nếu DB báo lỗi (chưa có bài)
         if (card.error) {
             document.getElementById("message").innerText = card.error;
             return;
         }
 
-        // Đổ dữ liệu từ Database ra màn hình
+        // 3. Thay đổi thông tin trong lúc bài đang úp
         document.getElementById("title").innerText = card.category;
         document.getElementById("card-img").src = card.img;
         document.getElementById("card-img").alt = card.category;
         document.getElementById("message").innerText = card.message;
+
+        // 4. Lật bài lên mặt ngửa
+        setTimeout(() => {
+            cardInner.classList.add("flipped");
+        }, 150);
         
     } catch (error) {
         console.error("Lỗi khi kết nối:", error);
-        document.getElementById("message").innerText = "Vũ trụ đang mất kết nối. Vui lòng kiểm tra lại Server!";
+        document.getElementById("message").innerText = "Mất kết nối đến server. Vui lòng thử lại sau.";
     }
 }
 
-// Tự động rút bài khi vừa vào trang
 window.onload = drawCard;
 </script>
 
