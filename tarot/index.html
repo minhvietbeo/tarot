@@ -7,7 +7,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="navbar">
     <div class="logo">🔮 Bói Tarot</div>
 
@@ -17,12 +16,19 @@
         <a href="#">Tự hỏi</a>
         <a href="#">Reader</a>
     </nav>
-
-    <!-- LOGIN / USER -->
-    <div class="nav-login" id="navUser"></div>
+    <div class="nav-login" id="navUser">
+    </div>
+    <div id="infoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle" style="color: orange; border-bottom: 1px solid gray; padding-bottom: 10px; margin-bottom: 15px;">Tiêu đề</h2>
+        <div id="modalBody">
+            Đang tải dữ liệu...
+        </div>
+    </div>
+</div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
     
     <div class="hero-text">
@@ -108,8 +114,6 @@
 <script>
 const navUser = document.getElementById("navUser");
 const startBtn = document.getElementById("start-btn");
-
-// Đổi thành hàm async để đợi Python trả lời
 async function renderNavUser() {
     try {
         // GỌI API PYTHON để lấy thông tin session
@@ -133,15 +137,13 @@ async function renderNavUser() {
 }
 
 async function logout() {
-    // GỌI API PYTHON ĐỂ XÓA SESSION
     await fetch('/api/logout', { method: 'POST' });
-    renderNavUser(); // Cập nhật lại giao diện
+    renderNavUser();
 }
 
 startBtn.addEventListener("click", async function(e) {
-    e.preventDefault(); // Tạm dừng việc chuyển trang ngay lập tức
+    e.preventDefault();
     
-    // Hỏi lại Python xem thực sự đã đăng nhập chưa
     const response = await fetch('/api/user');
     const data = await response.json();
 
@@ -149,13 +151,71 @@ startBtn.addEventListener("click", async function(e) {
         alert("Bạn cần đăng nhập trước!");
         window.location.href = "pages/authenticate/login.html";
     } else {
-        // Nếu Python báo Ok, cho phép chuyển sang trang rút bài
         window.location.href = "pages/detail/detail.html";
     }
 });
 
-// Chạy hàm kiểm tra ngay khi mở web
 renderNavUser();
+// Thay thế hàm renderNavUser cũ bằng hàm này
+async function renderNavUser() {
+    try {
+        const response = await fetch('/api/user');
+        const data = await response.json();
+        const user = data.user;
+
+        if (user) {
+            navUser.innerHTML = `
+                <div class="user-dropdown">
+                    <span class="user-name" onclick="toggleMenu()">👤 ${user} ▾</span>
+                    <div class="dropdown-content" id="userMenu">
+                        <a href="#" onclick="showModal('Hồ sơ của tôi', 'Tên đăng nhập: <b>${user}</b><br>Lượt bói miễn phí: <b>3</b>')">👤 Thông tin tài khoản</a>
+                        <a href="#" onclick="showModal('Lịch sử bói', 'Tính năng đang được vũ trụ ghi chép lại...<br>(Chưa có dữ liệu)')">⏳ Lịch sử bói</a>
+                        <a href="#" onclick="logout()" style="color: #ff4d4d; border-top: 1px solid rgba(255,255,255,0.1);">🚪 Đăng xuất</a>
+                    </div>
+                </div>
+            `;
+        } else {
+            navUser.innerHTML = `<a href="pages/authenticate/login.html" class="login-btn">Đăng nhập</a>`;
+        }
+    } catch (error) {
+        console.error("Lỗi khi kết nối Server:", error);
+    }
+}
+
+// ==========================================
+// CÁC HÀM ĐIỀU KHIỂN MENU VÀ POPUP CHUẨN XÁC
+// ==========================================
+function toggleMenu() {
+    document.getElementById("userMenu").classList.toggle("show");
+}
+
+// Đóng menu khi click ra ngoài màn hình
+window.onclick = function(event) {
+    if (!event.target.matches('.user-name')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+    // Đóng modal khi bấm ra ngoài viền đen
+    var modal = document.getElementById("infoModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function showModal(title, content) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalBody").innerHTML = content;
+    document.getElementById("infoModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("infoModal").style.display = "none";
+}
 </script>
 
 </body>
