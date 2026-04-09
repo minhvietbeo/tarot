@@ -8,17 +8,19 @@ app.secret_key = 'mot_chuoi_bi_mat_bat_ky'
 # CẤU HÌNH KẾT NỐI SQL SERVER
 # ==========================================
 def get_db_connection():
-    """Hàm tạo kết nối tới SQL Server"""
+    """Hàm tạo kết nối tới SQL Server bằng SQL Server Authentication"""
     
-    # !!! THAY TÊN SERVER CỦA BẠN VÀO ĐÂY !!!
-    server = 'TÊN_SERVER_CỦA_BẠN_Ở_ĐÂY'  # Ví dụ: 'localhost\\SQLEXPRESS'
-    database = 'tarot_db'
+    server = 'LAPTOP-BD3BQ9OJ'
+    database = 'tarot'
     
-    # Chuỗi kết nối dùng Windows Authentication (Không cần pass)
-    conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
+    # THÊM TÀI KHOẢN VÀ MẬT KHẨU SQL SERVER CỦA BẠN VÀO ĐÂY
+    username = 'sa'                  # Thường mặc định là 'sa' (System Administrator)
+    password = '12345678' # Thay bằng mật khẩu SQL Server của bạn
+    
+    # Chuỗi kết nối dùng SQL Server Authentication
+    conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
     
     return pyodbc.connect(conn_str)
-
 # ==========================================
 # ROUTE GIAO DIỆN & ĐĂNG NHẬP
 # ==========================================

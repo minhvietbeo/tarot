@@ -36,6 +36,37 @@
         </div>
     </section>
 </main>
+<script>
+async function drawCard() {
+    try {
+        // Hiển thị trạng thái đang chờ
+        document.getElementById("title").innerText = "Đang xin thông điệp...";
+        
+        // Gọi API tới Server Python (thêm Date().getTime() để không bị lưu cache)
+        const response = await fetch(`/api/draw?t=${new Date().getTime()}`);
+        const card = await response.json();
+
+        // Nếu DB báo lỗi (chưa có bài)
+        if (card.error) {
+            document.getElementById("message").innerText = card.error;
+            return;
+        }
+
+        // Đổ dữ liệu từ Database ra màn hình
+        document.getElementById("title").innerText = card.category;
+        document.getElementById("card-img").src = card.img;
+        document.getElementById("card-img").alt = card.category;
+        document.getElementById("message").innerText = card.message;
+        
+    } catch (error) {
+        console.error("Lỗi khi kết nối:", error);
+        document.getElementById("message").innerText = "Vũ trụ đang mất kết nối. Vui lòng kiểm tra lại Server!";
+    }
+}
+
+// Tự động rút bài khi vừa vào trang
+window.onload = drawCard;
+</script>
 
 </body>
 </html>
