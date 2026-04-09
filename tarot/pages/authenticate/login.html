@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập / Đăng ký</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="login-page">
+
+    <!-- NÚT TRANG CHỦ -->
+    <a href="../../index.html" class="home-fixed">🏠 Trang chủ</a>
+
+    <div class="auth-box">
+
+        <!-- LOGIN -->
+        <form id="loginForm" class="form active">
+            <h2>🔐 Đăng nhập</h2>
+
+            <input type="text" placeholder="Tên đăng nhập" required>
+            <input type="password" placeholder="Mật khẩu" required>
+
+            <button type="submit">Đăng nhập</button>
+
+            <p>
+                Chưa có tài khoản?
+                <a href="#" id="goRegister">Đăng ký</a>
+            </p>
+        </form>
+
+        <!-- REGISTER -->
+        <form id="registerForm" class="form">
+            <h2>📝 Đăng ký</h2>
+
+            <input type="text" placeholder="Tên đăng nhập" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Mật khẩu" required>
+            <input type="password" placeholder="Nhập lại mật khẩu" required>
+
+            <button type="submit">Đăng ký</button>
+
+            <p>
+                Đã có tài khoản?
+                <a href="#" id="goLogin">Đăng nhập</a>
+            </p>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    // Tìm form đăng nhập (Giả sử bạn đang dùng thẻ <form>)
+    const loginForm = document.querySelector('form');
+
+    if(loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Chặn việc tự động reload trang
+
+            // Lấy giá trị của ô nhập tài khoản 
+            // (Nếu input của bạn dùng thẻ khác, hãy đổi 'input[type="text"]' cho khớp)
+            const usernameInput = document.querySelector('input[type="text"]').value;
+
+            try {
+                // Gọi API gửi lên Python
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: usernameInput })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Đăng nhập thành công -> Bắn thẳng về trang chủ
+                    window.location.href = '/'; 
+                } else {
+                    alert(data.error);
+                }
+            } catch (error) {
+                console.error("Lỗi đăng nhập:", error);
+                alert("Lỗi kết nối tới Server!");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

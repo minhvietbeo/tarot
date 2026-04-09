@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, session
+from flask import Flask, render_template, jsonify, session, request
 import pyodbc # Thư viện SQL Server
 
 app = Flask(__name__, template_folder='tarot', static_folder='tarot', static_url_path='')
@@ -37,6 +37,20 @@ def get_user():
     if 'user' in session:
         return jsonify({"user": session['user']})
     return jsonify({"user": None})
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    """API nhận dữ liệu từ form login.html gửi lên"""
+    data = request.json
+    username = data.get('username')
+    
+    # Tạm thời cứ nhập tên là cho đăng nhập thành công. 
+    # (Sau này bạn có thể kết nối DB để check Mật khẩu ở đây)
+    if username:
+        session['user'] = username
+        return jsonify({"success": True})
+        
+    return jsonify({"success": False, "error": "Vui lòng nhập tên đăng nhập!"}), 400
 
 @app.route('/api/logout', methods=['POST'])
 def api_logout():
