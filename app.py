@@ -1,5 +1,5 @@
-from flask import Flask, render_template, jsonify, session, request
-import pyodbc
+from flask import Flask, render_template, jsonify, session, request # type: ignore
+import pyodbc # type: ignore
 
 app = Flask(__name__, template_folder='tarot', static_folder='tarot', static_url_path='')
 app.secret_key = 'mot_chuoi_bi_mat_bat_ky'

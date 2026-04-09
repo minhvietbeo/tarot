@@ -49,25 +49,22 @@
 </div>
 
 <script>
-    // 1. Lấy đúng ID (chú ý viết hoa/thường)
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
 
-    // 2. Chuyển từ Đăng nhập -> Đăng ký
     document.getElementById("goRegister").onclick = function(e){
         e.preventDefault();
         loginForm.classList.remove("active");
         registerForm.classList.add("active");
     };
 
-    // 3. Chuyển từ Đăng ký -> Đăng nhập (Phần bạn đang bị thiếu)
     document.getElementById("goLogin").onclick = function(e){
         e.preventDefault();
         registerForm.classList.remove("active");
         loginForm.classList.add("active");
     };
 
-    // 4. Gọi API Đăng nhập
+    //API Đăng nhập
     if(loginForm) {
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();

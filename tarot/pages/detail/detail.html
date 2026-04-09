@@ -58,10 +58,9 @@ async function drawCard() {
         document.getElementById("title").innerText = "Đang xin thông điệp...";
         document.getElementById("message").innerText = "Vũ trụ đang xáo bài...";
 
-        // Đợi 0.4s để hiệu ứng úp bài kịp chạy xong
         await new Promise(resolve => setTimeout(resolve, 400));
 
-        // 2. Gọi API lấy bài mới
+        // API lấy bài mới
         const response = await fetch(`/api/draw?t=${new Date().getTime()}`);
         const card = await response.json();
 
@@ -70,13 +69,13 @@ async function drawCard() {
             return;
         }
 
-        // 3. Thay đổi thông tin trong lúc bài đang úp
+        //Thay đổi thông tin trong lúc bài úp
         document.getElementById("title").innerText = card.category;
         document.getElementById("card-img").src = card.img;
         document.getElementById("card-img").alt = card.category;
         document.getElementById("message").innerText = card.message;
 
-        // 4. Lật bài lên mặt ngửa
+        //Lật bài lên
         setTimeout(() => {
             cardInner.classList.add("flipped");
         }, 150);

@@ -11,10 +11,9 @@
     <div class="logo">🔮 Bói Tarot</div>
 
     <nav>
-        <a href="#">Bói tương lai</a>
-        <a href="#">Hôm nay</a>
-        <a href="#">Tự hỏi</a>
-        <a href="#">Reader</a>
+        <a href="#">BLOGS</a>
+        <a href="#">Giới thiệu</a>
+        <a href="#">Liên hệ</a>
     </nav>
     <div class="nav-login" id="navUser">
     </div>
@@ -182,14 +181,11 @@ async function renderNavUser() {
     }
 }
 
-// ==========================================
-// CÁC HÀM ĐIỀU KHIỂN MENU VÀ POPUP CHUẨN XÁC
-// ==========================================
+//menu
 function toggleMenu() {
     document.getElementById("userMenu").classList.toggle("show");
 }
 
-// Đóng menu khi click ra ngoài màn hình
 window.onclick = function(event) {
     if (!event.target.matches('.user-name')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
