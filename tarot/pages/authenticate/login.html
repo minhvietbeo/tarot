@@ -9,12 +9,10 @@
 
 <div class="login-page">
 
-    <!-- NÚT TRANG CHỦ -->
     <a href="../../index.html" class="home-fixed">🏠 Trang chủ</a>
 
     <div class="auth-box">
-
-        <!-- LOGIN -->
+        <!--login-->
         <form id="loginForm" class="form active">
             <h2>🔐 Đăng nhập</h2>
 
@@ -29,7 +27,7 @@
             </p>
         </form>
 
-        <!-- REGISTER -->
+        <!-- res -->
         <form id="registerForm" class="form">
             <h2>📝 Đăng ký</h2>
 
@@ -51,19 +49,31 @@
 </div>
 
 <script>
-    // Tìm form đăng nhập (Giả sử bạn đang dùng thẻ <form>)
-    const loginForm = document.querySelector('form');
+    // 1. Lấy đúng ID (chú ý viết hoa/thường)
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
 
+    // 2. Chuyển từ Đăng nhập -> Đăng ký
+    document.getElementById("goRegister").onclick = function(e){
+        e.preventDefault();
+        loginForm.classList.remove("active");
+        registerForm.classList.add("active");
+    };
+
+    // 3. Chuyển từ Đăng ký -> Đăng nhập (Phần bạn đang bị thiếu)
+    document.getElementById("goLogin").onclick = function(e){
+        e.preventDefault();
+        registerForm.classList.remove("active");
+        loginForm.classList.add("active");
+    };
+
+    // 4. Gọi API Đăng nhập
     if(loginForm) {
         loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Chặn việc tự động reload trang
-
-            // Lấy giá trị của ô nhập tài khoản 
-            // (Nếu input của bạn dùng thẻ khác, hãy đổi 'input[type="text"]' cho khớp)
-            const usernameInput = document.querySelector('input[type="text"]').value;
+            e.preventDefault();
+            const usernameInput = loginForm.querySelector('input[type="text"]').value;
 
             try {
-                // Gọi API gửi lên Python
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -73,7 +83,6 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Đăng nhập thành công -> Bắn thẳng về trang chủ
                     window.location.href = '/'; 
                 } else {
                     alert(data.error);
