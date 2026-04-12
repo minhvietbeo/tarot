@@ -1,0 +1,165 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #1a1a2e, #162447);
+    color: white;
+    min-height: 100vh;
+}
+
+/* HEADER */
+/* NAVBAR - ĐỒNG BỘ TOÀN WEB */
+.navbar {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 30px;
+
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+}
+
+/* LOGO */
+.navbar .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #f39c12;
+}
+
+/* MENU */
+.navbar nav {
+    display: flex;
+    gap: 25px;
+}
+
+/* LINK */
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    transition: 0.3s;
+}
+
+/* GẠCH CHÂN ANIMATION */
+.navbar nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 2px;
+    background: #f39c12;
+    transition: 0.3s;
+}
+
+.navbar nav a:hover {
+    color: #f39c12;
+}
+
+.navbar nav a:hover::after {
+    width: 100%;
+}
+
+/* SECTION GIỚI THIỆU */
+.about {
+    padding: 80px 20px;
+}
+
+.about-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.about-img {
+    flex: 1;
+    min-width: 280px;
+    transform: translateX(-50px);
+    opacity: 0;
+    animation: slideInLeft 1s forwards;
+    animation-delay: 0.3s;
+}
+
+.about-img img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    transition: transform 0.5s;
+}
+
+.about-img img:hover {
+    transform: scale(1.05) rotate(1deg);
+}
+
+.about-text {
+    flex: 1;
+    min-width: 280px;
+    transform: translateX(50px);
+    opacity: 0;
+    animation: slideInRight 1s forwards;
+    animation-delay: 0.5s;
+}
+
+.about-text h2 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: #f39c12;
+}
+
+.about-text p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.home-btn {
+    background: #f39c12;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+.home-btn:hover {
+    background: #e67e22;
+    transform: scale(1.05);
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

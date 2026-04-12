@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs Tarot</title>
+    <link rel="stylesheet" href="blogs.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">🔮 Blogs Tarot</div>
+
+    <nav>
+        <a href="../index.html">Trang chủ</a>
+        <a href="../contract/contract.html">Liên hệ</a>
+        <a href="../about_me/about.html">Giới thiệu</a>
+    </nav>
+</header>
+
+<section class="blog-hero">
+    <div class="blog-hero-content">
+        <h1>📖 Bài Viết Tarot</h1>
+        <p>Khám phá ý nghĩa các lá bài Tarot, thông điệp tình yêu, sự nghiệp và hành trình phát triển bản thân.</p>
+    </div>
+</section>
+
+<section class="blog-container">
+    <div class="blog-list">
+
+        <div class="blog-card" onclick="openBlog('Ý nghĩa The Lovers', 'The Lovers tượng trưng cho tình yêu, sự lựa chọn và kết nối sâu sắc. Lá bài này thường nhắc đến sự đồng điệu, cam kết và quyết định quan trọng trong tình cảm.')">
+            <img src="../assets/images/love.jpg" alt="The Lovers">
+            <div class="blog-card-body">
+                <h3>The Lovers</h3>
+                <p>Tình yêu và sự lựa chọn</p>
+            </div>
+        </div>
+
+        <div class="blog-card" onclick="openBlog('Ý nghĩa The Star', 'The Star mang đến hy vọng, chữa lành và niềm tin vào tương lai. Đây là lá bài của sự bình yên, cảm hứng và ánh sáng sau những khó khăn.')">
+            <img src="../assets/images/health3.jpg" alt="The Star">
+            <div class="blog-card-body">
+                <h3>The Star</h3>
+                <p>Hy vọng & chữa lành</p>
+            </div>
+        </div>
+
+        <div class="blog-card" onclick="openBlog('Ý nghĩa Strength', 'Strength thể hiện sự kiên nhẫn, nội lực và khả năng kiểm soát cảm xúc. Lá bài này nhấn mạnh sức mạnh mềm mỏng nhưng bền bỉ bên trong bạn.')">
+            <img src="../assets/images/strength.jpg" alt="Strength">
+            <div class="blog-card-body">
+                <h3>Strength</h3>
+                <p>Nội lực & kiên nhẫn</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MODAL -->
+<div id="blogModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeBlog()">&times;</span>
+        <h2 id="blogTitle"></h2>
+        <p id="blogContent"></p>
+    </div>
+</div>
+
+<script>
+function openBlog(title, content) {
+    document.getElementById("blogTitle").innerText = title;
+    document.getElementById("blogContent").innerText = content;
+    document.getElementById("blogModal").style.display = "block";
+}
+
+function closeBlog() {
+    document.getElementById("blogModal").style.display = "none";
+}
+
+window.addEventListener("click", function (e) {
+    const modal = document.getElementById("blogModal");
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+});
+</script>
+
+</body>
+</html>
