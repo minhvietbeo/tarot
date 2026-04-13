@@ -15,24 +15,23 @@
         <a href="/about_me/about.html">Giới thiệu</a>
         <a href="/blogs/blogs.html">Blog</a>
         <a href="/contract/contract.html">Liên hệ</a>
-        <span id="nav-user">
-        </span>
+        <span id="nav-user"></span>
     </nav>
     <div class="nav-login" id="navUser">
     </div>
+
     <div id="infoModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle" style="color: orange; border-bottom: 1px solid gray; padding-bottom: 10px; margin-bottom: 15px;">Tiêu đề</h2>
-        <div id="modalBody">
-            Đang tải dữ liệu...
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" style="color: orange; border-bottom: 1px solid gray; padding-bottom: 10px; margin-bottom: 15px;">Tiêu đề</h2>
+            <div id="modalBody">
+                Đang tải dữ liệu...
+            </div>
         </div>
     </div>
-</div>
 </header>
 
 <section class="hero">
-    
     <div class="hero-text">
         <h1>Bói Bài Tarot Online Chính Xác, Miễn Phí</h1>
         <p>
@@ -45,9 +44,7 @@
         </a>
     </div>
 
-    <!-- TAROT -->
     <div class="hero-img">
-
         <div class="flip-card card1">
             <div class="flip-inner">
                 <div class="flip-front">
@@ -74,16 +71,13 @@
                 <div class="flip-back">✨</div>
             </div>
         </div>
-
     </div>
 </section>
 
-<!-- CARDS -->
 <section class="cards">
     <h2>BÓI BÀI TAROT HÔM NAY</h2>
 
     <div class="card-list">
-
         <div class="card-item">
             <div class="card">HỌC TẬP</div>
             <img src="assets/images/card.jpg" alt="">
@@ -108,30 +102,33 @@
             <div class="card">SỨC KHỎE</div>
             <img src="assets/images/card.jpg" alt="">
         </div>
-
     </div>
 </section>
 
-<!-- SCRIPT -->
 <script>
 const navUser = document.getElementById("navUser");
 const startBtn = document.getElementById("start-btn");
+
+// HÀM RENDER MENU NGƯỜI DÙNG
 async function renderNavUser() {
     try {
-        // GỌI API PYTHON để lấy thông tin session
         const response = await fetch('/api/user');
         const data = await response.json();
         const user = data.user;
 
         if (user) {
             navUser.innerHTML = `
-                <span class="user-name">👤 ${user}</span>
-                <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+                <div class="user-dropdown">
+                    <span class="user-name" onclick="toggleMenu()">👤 ${user} ▾</span>
+                    <div class="dropdown-content" id="userMenu">
+                        <a href="#" onclick="showModal('Hồ sơ của tôi', 'Tên đăng nhập: <b>${user}</b><br>Lượt bói miễn phí: <b>3</b>')">👤 Thông tin tài khoản</a>
+                        <a href="#" onclick="showHistoryModal()">⏳ Lịch sử bói</a>
+                        <a href="#" onclick="logout()" style="color: #ff4d4d; border-top: 1px solid rgba(255,255,255,0.1);">🚪 Đăng xuất</a>
+                    </div>
+                </div>
             `;
         } else {
-            navUser.innerHTML = `
-                <a href="pages/authenticate/login.html" class="login-btn">Đăng nhập</a>
-            `;
+            navUser.innerHTML = `<a href="pages/authenticate/login.html" class="login-btn">Đăng nhập</a>`;
         }
     } catch (error) {
         console.error("Lỗi khi kết nối Server:", error);
@@ -158,33 +155,8 @@ startBtn.addEventListener("click", async function(e) {
 });
 
 renderNavUser();
-// Thay thế hàm renderNavUser cũ bằng hàm này
-async function renderNavUser() {
-    try {
-        const response = await fetch('/api/user');
-        const data = await response.json();
-        const user = data.user;
 
-        if (user) {
-            navUser.innerHTML = `
-                <div class="user-dropdown">
-                    <span class="user-name" onclick="toggleMenu()">👤 ${user} ▾</span>
-                    <div class="dropdown-content" id="userMenu">
-                        <a href="#" onclick="showModal('Hồ sơ của tôi', 'Tên đăng nhập: <b>${user}</b><br>Lượt bói miễn phí: <b>3</b>')">👤 Thông tin tài khoản</a>
-                        <a href="#" onclick="showModal('Lịch sử bói', 'Tính năng đang được vũ trụ ghi chép lại...<br>(Chưa có dữ liệu)')">⏳ Lịch sử bói</a>
-                        <a href="#" onclick="logout()" style="color: #ff4d4d; border-top: 1px solid rgba(255,255,255,0.1);">🚪 Đăng xuất</a>
-                    </div>
-                </div>
-            `;
-        } else {
-            navUser.innerHTML = `<a href="pages/authenticate/login.html" class="login-btn">Đăng nhập</a>`;
-        }
-    } catch (error) {
-        console.error("Lỗi khi kết nối Server:", error);
-    }
-}
-
-//menu
+// CÁC HÀM ĐIỀU KHIỂN MENU VÀ POPUP
 function toggleMenu() {
     document.getElementById("userMenu").classList.toggle("show");
 }
@@ -199,7 +171,6 @@ window.onclick = function(event) {
             }
         }
     }
-    // Đóng modal khi bấm ra ngoài viền đen
     var modal = document.getElementById("infoModal");
     if (event.target == modal) {
         modal.style.display = "none";
@@ -214,6 +185,51 @@ function showModal(title, content) {
 
 function closeModal() {
     document.getElementById("infoModal").style.display = "none";
+}
+
+// HÀM LẤY VÀ HIỂN THỊ LỊCH SỬ BÓI
+async function showHistoryModal() {
+    var menu = document.getElementById("userMenu");
+    if (menu) menu.classList.remove('show');
+
+    showModal('⏳ Lịch sử bói Tarot', 'Vũ trụ đang lật lại những trang ký ức của bạn...');
+
+    try {
+        const response = await fetch('/api/history');
+        const data = await response.json();
+
+        if (data.error) {
+            document.getElementById("modalBody").innerHTML = `<p style="color: #ff4d4d;">${data.error}</p>`;
+            return;
+        }
+
+        if (data.history.length === 0) {
+            document.getElementById("modalBody").innerHTML = '<p>Bạn chưa rút lá bài nào. Hãy bước vào thế giới Tarot và rút một thông điệp nhé!</p>';
+            return;
+        }
+
+        let html = '<div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">';
+        
+        data.history.forEach(item => {
+            html += `
+                <div style="display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 0;">
+                    <img src="${item.image_url}" style="width: 50px; height: 75px; border-radius: 6px; margin-right: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.5);" alt="${item.card_name}">
+                    <div style="text-align: left;">
+                        <h4 style="color: orange; margin-bottom: 5px; font-size: 16px;">${item.card_name}</h4>
+                        <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">📅 ${item.date}</p>
+                        <p style="font-size: 13px; color: #ddd; line-height: 1.4;">${item.message.substring(0, 70)}...</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        document.getElementById("modalBody").innerHTML = html;
+
+    } catch (error) {
+        console.error("Lỗi:", error);
+        document.getElementById("modalBody").innerHTML = '<p style="color: #ff4d4d;">Mất kết nối với cơ sở dữ liệu!</p>';
+    }
 }
 </script>
 
