@@ -78,30 +78,32 @@
     <h2>BÓI BÀI TAROT HÔM NAY</h2>
 
     <div class="card-list">
-        <div class="card-item">
+
+        <div class="card-item" onclick="window.location.href='/topic/hoctap'" style="cursor: pointer;">
             <div class="card">HỌC TẬP</div>
-            <img src="assets/images/card.jpg" alt="">
+            <img src="assets/images/card.jpg" alt="Học tập">
         </div>
 
-        <div class="card-item">
+        <div class="card-item" onclick="window.location.href='/topic/love'" style="cursor: pointer;">
             <div class="card">TÌNH YÊU</div>
-            <img src="assets/images/card.jpg" alt="">
+            <img src="assets/images/card.jpg" alt="Tình yêu">
         </div>
 
-        <div class="card-item">
+        <div class="card-item" onclick="window.location.href='/topic/work'" style="cursor: pointer;">
             <div class="card">CÔNG VIỆC</div>
-            <img src="assets/images/card.jpg" alt="">
+            <img src="assets/images/card.jpg" alt="Công việc">
         </div>
 
-        <div class="card-item">
+        <div class="card-item" onclick="window.location.href='/topic/money'" style="cursor: pointer;">
             <div class="card">TÀI CHÍNH</div>
-            <img src="assets/images/card.jpg" alt="">
+            <img src="assets/images/card.jpg" alt="Tài chính">
         </div>
 
-        <div class="card-item">
+        <div class="card-item" onclick="window.location.href='/topic/health'" style="cursor: pointer;">
             <div class="card">SỨC KHỎE</div>
-            <img src="assets/images/card.jpg" alt="">
+            <img src="assets/images/card.jpg" alt="Sức khỏe">
         </div>
+
     </div>
 </section>
 
@@ -222,7 +224,6 @@ async function showHistoryModal() {
                 </div>
             `;
         });
-        
         html += '</div>';
         document.getElementById("modalBody").innerHTML = html;
 

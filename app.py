@@ -12,6 +12,7 @@ def get_db_connection():
     conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
     return pyodbc.connect(conn_str)
 
+# CÁC ROUTE GIAO DIỆN (FRONTEND)
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -20,6 +21,28 @@ def home():
 def detail():
     return render_template('pages/detail/detail.html')
 
+#CÁC TRANG CHỦ ĐỀ BÓI BÀI HÔM NAY
+@app.route('/topic/hoctap')
+def topic_hoctap():
+    return render_template('pages/topics/hoctap/hoctap.html')
+
+@app.route('/topic/love')
+def topic_love():
+    return render_template('pages/topics/love/love.html')
+
+@app.route('/topic/work')
+def topic_work():
+    return render_template('pages/topics/work/work.html')
+
+@app.route('/topic/money')
+def topic_money():
+    return render_template('pages/topics/money/money.html')
+
+@app.route('/topic/health')
+def topic_health():
+    return render_template('pages/topics/health/health.html')
+
+# CÁC API XỬ LÝ (BACKEND)
 @app.route('/api/user')
 def get_user():
     if 'user' in session:
