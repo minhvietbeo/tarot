@@ -12,7 +12,6 @@
     <a href="../../index.html" class="home-fixed">🏠 Trang chủ</a>
 
     <div class="auth-box">
-        <!--login-->
         <form id="loginForm" class="form active">
             <h2>🔐 Đăng nhập</h2>
 
@@ -27,7 +26,6 @@
             </p>
         </form>
 
-        <!-- res -->
         <form id="registerForm" class="form">
             <h2>📝 Đăng ký</h2>
 
@@ -64,17 +62,23 @@
         loginForm.classList.add("active");
     };
 
-    //API Đăng nhập
+    // API Đăng nhập (Đã thêm gửi Password)
     if(loginForm) {
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const usernameInput = loginForm.querySelector('input[type="text"]').value;
+            
+            const inputs = loginForm.querySelectorAll('input');
+            const usernameInput = inputs[0].value;
+            const passwordInput = inputs[1].value;
 
             try {
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: usernameInput })
+                    body: JSON.stringify({ 
+                        username: usernameInput,
+                        password: passwordInput
+                    })
                 });
 
                 const data = await response.json();
@@ -87,6 +91,47 @@
             } catch (error) {
                 console.error("Lỗi đăng nhập:", error);
                 alert("Lỗi kết nối tới Server!");
+            }
+        });
+    }
+
+    // API Đăng ký
+    if(registerForm) {
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const inputs = registerForm.querySelectorAll('input');
+            const username = inputs[0].value;
+            const email = inputs[1].value;
+            const password = inputs[2].value;
+            const confirmPassword = inputs[3].value;
+
+            if (password !== confirmPassword) {
+                alert("Mật khẩu nhập lại không khớp!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert("Đăng ký thành công! Vũ trụ chào đón bạn. Hãy đăng nhập nhé.");
+                    
+                    registerForm.reset();
+                    registerForm.classList.remove("active");
+                    loginForm.classList.add("active");
+                } else {
+                    alert(data.error);
+                }
+            } catch (error) {
+                console.error("Lỗi đăng ký:", error);
+                alert("Mất kết nối tới Server!");
             }
         });
     }
